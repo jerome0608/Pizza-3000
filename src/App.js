@@ -1,57 +1,28 @@
-import React, { useState } from 'react'
-import './App.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { complete, remove } from './slices';
-
-
+import React from 'react';
+import { useSelector } from 'react-redux';
+import Pizza from './components/Pizza';
 
 const App = () => {
-  
-  const todos = useSelector(state => state.data.todos )
-  const dispatch = useDispatch();
-
-  
-  const deleteTodo = (index) => {
-    dispatch(remove(index))
-  }
-
-  const completeTodo = (index) => {
-    dispatch(complete(index))
-  }
-
-  const renderTodos = () => {
-    const listTodos = todos.map((item, index) => {
-      return (
-        <Todo
-          key={item.id}
-          item={item}
-          checkboxAction={() => completeTodo(index)}
-          buttonAction={() => deleteTodo(index)}
-        />
-      );
-    });
-
-    return (
-      <div className="todos">
-        <h2>Mes tâches</h2>
-        {listTodos}
-      </div >
-    );
-  }
+  const pizzas = useSelector((state) => state.pizzas);
+  const selectedPizza = useSelector((state) => state.selectedPizza);
 
   return (
-    <div className="App">
-      <header>
-        <span role="img" aria-label="">🧠</span>
-        <h1>Taskinator</h1>
-        <span role="img" aria-label="">🤖</span>
-      </header>
-      <div className="container">
-      <AddTodo/>
-      {renderTodos()}
+    <div>
+      <h1>Pizza Menu</h1>
+      <div>
+        {pizzas.map((pizza) => (
+          <Pizza key={pizza.id} pizza={pizza} />
+        ))}
+      </div>
+      <div>
+        {selectedPizza && (
+          <p>
+            Selected Pizza: {selectedPizza.name} - Price: ${selectedPizza.price}
+          </p>
+        )}
       </div>
     </div>
   );
-}
+};
 
-export default App
+export default App;

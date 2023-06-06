@@ -1,11 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Root from './Root';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import pizzaReducer from './slices';
+import App from './App';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <Root />
-  </React.StrictMode>
+const store = configureStore({
+  reducer: {
+    pizza: pizzaReducer,
+  },
+});
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
 );
